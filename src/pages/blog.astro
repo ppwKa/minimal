@@ -1,15 +1,18 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog");
+const pageTitle = "博客页面";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
+	<h1>{pageTitle}</h1>
 	<ul>
-		<li><a href="/posts/post-1/">文章 1</a></li>
-		<li><a href="/posts/post-2/">文章 2</a></li>
-		<li><a href="/posts/post-3/">文章 3</a></li>
+		{allPosts.map((post: any) => <li><a href={`/posts/${post.id}/`}>{post.data.title}</a></li>)}
 	</ul>
 </Layout>
